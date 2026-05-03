@@ -5,13 +5,25 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/auth.routes.js";
 import productRoutes from "./routes/product.routes.js";
 
-dotenv.config();
+// ✅ Only load .env file locally — Render sets env vars via its dashboard
+if (process.env.NODE_ENV !== "production") {
+  dotenv.config();
+}
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:3001",
+      process.env.FRONTEND_URL, // set this in Render environment variables
+    ].filter(Boolean),
+    credentials: true,
+  })
+);
 
-// ✅ Increased limit to support base64 image uploads (default is 100kb — too small)
+// ✅ Increased limit to support base64 image uploads
 app.use(express.json({ limit: "20mb" }));
 app.use(express.urlencoded({ limit: "20mb", extended: true }));
 
