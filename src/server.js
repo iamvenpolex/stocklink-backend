@@ -5,6 +5,8 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/auth.routes.js";
 import productRoutes from "./routes/product.routes.js";
 import sellerRoutes from "./routes/seller.routes.js";
+import adminRoutes from "./routes/admin.routes.js";
+
 
 
 // ✅ Only load .env file locally — Render sets env vars via its dashboard
@@ -33,6 +35,7 @@ app.use(express.urlencoded({ limit: "20mb", extended: true }));
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/sellers", sellerRoutes);
+app.use("/api/admin", adminRoutes);
 
 app.get("/", (req, res) => {
   res.send("StockLINK API running 🚀");
