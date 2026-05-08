@@ -21,6 +21,7 @@ app.use(
     origin: [
       "http://localhost:3000",
       "http://localhost:3001",
+      "https://stocklink-admin.vercel.app",
       process.env.FRONTEND_URL, // set this in Render environment variables
     ].filter(Boolean),
     credentials: true,
