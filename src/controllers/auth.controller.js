@@ -230,3 +230,25 @@ export const updatePassword = async (req, res) => {
     return res.status(500).json({ message: "Server error. Please try again." });
   }
 };
+
+// GET /api/auth/notifications
+// Returns notifications sent to this seller or to all sellers
+export const getMyNotifications = async (req, res) => {
+  try {
+    const sellerId = req.user.sub;
+
+    const { data: notifications, error } = await supabase
+      .from("notifications")
+      .select("id, title, message, sent_at")
+      .or(`target_seller_id.eq.${sellerId},target_seller_id.is.null`)
+      .order("sent_at", { ascending: false })
+      .limit(50);
+
+    if (error) throw error;
+
+    return res.status(200).json({ notifications });
+  } catch (err) {
+    console.error("[GET MY NOTIFICATIONS ERROR]", err);
+    return res.status(500).json({ message: "Server error." });
+  }
+};

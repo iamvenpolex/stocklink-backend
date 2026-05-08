@@ -5,8 +5,11 @@ import {
   getMe,
   updateProfile,
   updatePassword,
+  getMyNotifications,
 } from "../controllers/auth.controller.js";
 import { protect } from "../middleware/protect.js";
+
+
 
 const router = express.Router();
 
@@ -18,5 +21,6 @@ router.post("/login", login);
 router.get("/me", protect, getMe);
 router.patch("/profile", protect, updateProfile);   // update name, business, phone
 router.patch("/password", protect, updatePassword); // change password
+router.get("/notifications", protect, getMyNotifications);
 
 export default router;
